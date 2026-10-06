@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Py Quiz - Learn Python with animated flashcards, quizzes, coding practice and progress tracking.">
+    <title>Py Quiz - Learn Python</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap');
+
+        :root {
+            --primary: #6d5dfc;
+            --secondary: #00c2ff;
+            --dark: #101426;
+            --muted: #697386;
+            --surface: #ffffff;
+            --bg: #f5f7ff;
+            --success: #19b978;
+            --danger: #ef476f;
+            --warning: #ffb703;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, system-ui, sans-serif;
+            color: var(--dark);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(109, 93, 252, .12), transparent 30%),
+                radial-gradient(circle at 90% 15%, rgba(0, 194, 255, .10), transparent 28%),
+                var(--bg);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand {
+            font-family: Poppins, Inter, sans-serif
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        .btn-primary {
+            border: 0;
+            background: linear-gradient(135deg, var(--primary), #8c5bff);
+            box-shadow: 0 10px 24px rgba(109, 93, 252, .22);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5c4cf0, #7b4fff)
+        }
+
+        .btn-soft {
+            background: #eeecff;
+            color: #5d50db;
+            border: 0
+        }
+
+        .btn-soft:hover {
+            background: #e1ddff;
+            color: #4c40c7
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, .86);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, .75);
+            box-shadow: 0 20px 60px rgba(28, 35, 75, .08);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, .88) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(30, 40, 80, .06);
+        }
+
+        .brand {
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand .py {
+            color: var(--primary)
+        }
+
+        .brand .quiz {
+            color: #15192b
+        }
+
+        .hero {
+            min-height: calc(100vh - 72px);
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.3rem, 6vw, 4.7rem);
+            line-height: 1.03;
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-card,
+        .topic-card,
+        .stat-card,
+        .admin-card,
+        .code-card {
+            border: 0;
+            border-radius: 24px;
+            background: #fff;
+            box-shadow: 0 14px 45px rgba(30, 40, 90, .07);
+            transition: .25s ease;
+        }
+
+        .feature-card:hover,
+        .topic-card:hover,
+        .code-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 22px 55px rgba(30, 40, 90, .12);
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #eceaff, #e5f8ff);
+            color: var(--primary);
+            font-size: 1.35rem;
+        }
+
+        .login-wrap {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px
+        }
+
+        .login-card {
+            max-width: 960px;
+            width: 100%;
+            border-radius: 30px;
+            overflow: hidden
+        }
+
+        .login-art {
+            min-height: 580px;
+            background: linear-gradient(135deg, #5f4cf2, #00bde9);
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: .24
+        }
+
+        .blob.one {
+            width: 300px;
+            height: 300px;
+            background: white;
+            right: -100px;
+            top: -90px
+        }
+
+        .blob.two {
+            width: 220px;
+            height: 220px;
+            background: #fff;
+            left: -80px;
+            bottom: -60px
+        }
+
+        .login-art-content {
+            position: relative;
+            z-index: 2
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 48px;
+            border-radius: 14px;
+            border: 1px solid #e2e5ef;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #9d93ff;
+            box-shadow: 0 0 0 .2rem rgba(109, 93, 252, .1)
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 86px;
+            height: calc(100vh - 110px);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .side-btn {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            padding: 12px 14px;
+            border-radius: 13px;
+            color: #657086;
+            font-weight: 600;
+        }
+
+        .side-btn:hover,
+        .side-btn.active {
+            background: #efedff;
+            color: #5d50db
+        }
+
+        .dashboard-main {
+            min-width: 0
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 20px;
+            background: #eceef6
+        }
+
+        .progress-bar {
+            border-radius: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary))
+        }
+
+        .topic-card .topic-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #f0edff, #e8fbff);
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+
+        .badge-soft {
+            background: #f0efff;
+            color: #5b50db
+        }
+
+        .learning-card {
+            min-height: 340px;
+            border-radius: 28px;
+            padding: 34px;
+            background: linear-gradient(135deg, #171a35, #30256b);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learning-card:before,
+        .learning-card:after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .14);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .learning-card:before {
+            width: 220px;
+            height: 220px;
+            right: -90px;
+            top: -80px
+        }
+
+        .learning-card:after {
+            width: 150px;
+            height: 150px;
+            left: -70px;
+            bottom: -60px;
+            animation-delay: 1s
+        }
+
+        .card-chip {
+            display: inline-flex;
+            padding: 7px 12px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .12);
+            font-size: .82rem
+        }
+
+        .flash-word {
+            font-size: clamp(1.6rem, 4vw, 2.6rem);
+            font-weight: 800;
+            position: relative;
+            z-index: 2
+        }
+
+        .flip {
+            animation: flipIn .45s ease
+        }
+
+        @keyframes flipIn {
+            from {
+                transform: rotateY(90deg);
+                opacity: 0
+            }
+
+            to {
+                transform: rotateY(0);
+                opacity: 1
+            }
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(12px) scale(1.05)
+            }
+        }
+
+        .question-option {
+            border: 2px solid #e7e9f2;
+            border-radius: 16px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: .2s;
+            background: #fff;
+        }
+
+        .question-option:hover {
+            border-color: #9b92ff;
+            background: #faf9ff
+        }
+
+        .question-option.selected {
+            border-color: var(--primary);
+            background: #f0eeff
+        }
+
+        .question-option input {
+            accent-color: var(--primary)
+        }
+
+        .timer {
+            font-weight: 800;
+            color: var(--primary)
+        }
+
+        .answer-correct {
+            border-left: 4px solid var(--success);
+            background: #effbf6
+        }
+
+        .answer-wrong {
+            border-left: 4px solid var(--danger);
+            background: #fff1f4
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 260px;
+            border: 0;
+            border-radius: 18px;
+            padding: 18px;
+            background: #15182a;
+            color: #e9ecff;
+            font-family: Consolas, monospace;
+            resize: vertical;
+        }
+
+        .code-output {
+            min-height: 90px;
+            background: #0f1220;
+            color: #b9ffd9;
+            border-radius: 16px;
+            padding: 15px;
+            font-family: Consolas, monospace;
+            white-space: pre-wrap;
+        }
+
+        .locked {
+            filter: saturate(.6);
+            opacity: .75
+        }
+
+        .table-card {
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 12px 40px rgba(30, 40, 90, .06)
+        }
+
+        .small-muted {
+            font-size: .88rem;
+            color: var(--muted)
+        }
+
+        .page-title {
+            font-weight: 800;
+            letter-spacing: -.8px
+        }
+
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--muted)
+        }
+
+        .toast-box {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 9999;
+            max-width: 360px;
+        }
+
+        @media(max-width:991px) {
+            .sidebar {
+                position: static;
+                height: auto
+            }
+
+            .login-art {
+                min-height: 320px
+            }
+
+            .hero {
+                padding: 60px 0
+            }
+        }
+
+        @media(max-width:575px) {
+            .login-card {
+                border-radius: 20px
+            }
+
+            .learning-card {
+                padding: 24px;
+                min-height: 320px
+            }
+
+            .hero-title {
+                letter-spacing: -1.3px
+            }
+
+            .navbar .container {
+                padding-left: 16px;
+                padding-right: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        // ==========================================
+        //              PY QUIZ ADMIN SETTINGS
+        // ==========================================
+        // Change these two values to set your admin login.
+        // Example:
+        // const PYQUIZ_CONFIG = { adminUsername: "jyothsnavi", adminPassword: "Python@2026" };
+        // NOTE: This is a frontend/demo application. The password is visible in source code.
+        const PYQUIZ_CONFIG = {
+            adminUsername: "admin",
+            adminPassword: "PyQuiz@123"
+        };
+    </script>
+    <script>
+        const TOPICS = [
+            {
+                id: "basics", name: "Python Basics", icon: "bi-braces", level: "Beginner", desc: "Syntax, variables, input, output and comments.",
+                cards: [
+                    ["What is Python?", "A high-level, interpreted programming language known for readable syntax."],
+                    ["print()", "Displays text or values on the console."],
+                    ["Variable", "A name that refers to a value, e.g. score = 10."],
+                    ["input()", "Reads text entered by the user and returns a string."],
+                    ["Comment", "Use # to write a note that Python does not execute."]
+                ],
+                qs: [
+                    ["Which function displays output?", "print()", "input()", "display()", "echo()", "A"],
+                    ["Which symbol starts a comment?", "#", "//", "<!--", "--", "A"],
+                    ["What does input() return by default?", "String", "Integer", "Boolean", "List", "A"],
+                    ["Python uses indentation mainly to define what?", "Code blocks", "Variable names", "Comments", "Packages", "A"],
+                    ["Which is a valid variable name?", "student_name", "2student", "student-name", "class", "A"],
+                    ["What does len('Python') return?", "6", "5", "7", "0", "A"],
+                    ["Which extension is commonly used for Python files?", " .py", " .java", " .js", " .html", "A"],
+                    ["Which keyword creates a condition?", "if", "when", "check", "condition", "A"],
+                    ["Which function shows the type of a value?", "type()", "kind()", "typeof()", "classof()", "A"],
+                    ["Which operator assigns a value?", "=", "==", ":=", "=>", "A"]
+                ]
+            },
+            {
+                id: "types", name: "Data Types", icon: "bi-database", level: "Beginner", desc: "Numbers, strings, booleans, None and type conversion.",
+                cards: [
+                    ["int", "Whole numbers such as 10 and -4."],
+                    ["float", "Numbers containing a decimal part, such as 3.14."],
+                    ["bool", "Boolean values are True or False."],
+                    ["None", "Represents the absence of a value."],
+                    ["Type conversion", "Functions like int(), float(), and str() convert values."]
+                ],
+                qs: [
+                    ["Which type stores True or False?", "bool", "int", "str", "list", "A"],
+                    ["What is type(3.5)?", "float", "int", "double", "decimal", "A"],
+                    ["What does int('12') produce?", "12", "'12'", "12.0", "True", "A"],
+                    ["Which value represents no value?", "None", "Null", "Empty", "False", "A"],
+                    ["What is 5 // 2?", "2", "2.5", "3", "1", "A"],
+                    ["What is 5 % 2?", "1", "2", "0", "2.5", "A"],
+                    ["What is bool(0)?", "False", "True", "0", "None", "A"],
+                    ["Which converts a number to text?", "str()", "text()", "string()", "chr()", "A"],
+                    ["What is 2 ** 3?", "8", "6", "9", "5", "A"],
+                    ["What type is '42'?", "str", "int", "float", "bool", "A"]
+                ]
+            },
+            {
+                id: "operators", name: "Operators", icon: "bi-calculator", level: "Beginner", desc: "Arithmetic, comparison, logical, assignment and membership operators.",
+                cards: [
+                    ["Arithmetic", "+, -, *, /, //, %, and ** perform numeric operations."],
+                    ["Comparison", "==, !=, >, <, >= and <= compare values."],
+                    ["Logical", "and, or and not combine Boolean expressions."],
+                    ["Membership", "in and not in test whether a value exists in a sequence."],
+                    ["Identity", "is and is not test object identity."]
+                ],
+                qs: [
+                    ["Which operator means 'equal to'?", "==", "=", "!=", "is", "A"],
+                    ["Which operator gives floor division?", "//", "/", "%", "**", "A"],
+                    ["Which operator means 'not equal'?", "!=", "<>", "not=", "!==", "A"],
+                    ["What does 'a' in 'cat' return?", "True", "False", "a", "None", "A"],
+                    ["Which keyword negates a Boolean?", "not", "!", "negate", "no", "A"],
+                    ["What is 10 > 3 and 2 < 5?", "True", "False", "10", "None", "A"],
+                    ["Which has highest priority here: 2 + 3 * 4?", "*", "+", "=", "and", "A"],
+                    ["Which operator calculates a power?", "**", "^^", "pow", "//", "A"],
+                    ["What does 7 % 3 return?", "1", "2", "3", "0", "A"],
+                    ["Which checks identity?", "is", "==", "in", "equals", "A"]
+                ]
+            },
+            {
+                id: "strings", name: "Strings", icon: "bi-type", level: "Beginner", desc: "Indexing, slicing, methods, formatting and string processing.",
+                cards: [
+                    ["Indexing", "Access a character with text[index]."],
+                    ["Slicing", "text[start:stop:step] extracts part of a string."],
+                    ["upper()", "Returns a copy with letters in uppercase."],
+                    ["split()", "Splits a string into a list using a separator."],
+                    ["f-string", "f'Hello {name}' inserts expressions into a string."]
+                ],
+                qs: [
+                    ["What is 'Python'[0]?", "P", "y", "n", "Python", "A"],
+                    ["What does 'abc'.upper() return?", "ABC", "abc", "Abc", "aBC", "A"],
+                    ["Which method removes whitespace at both ends?", "strip()", "trim()", "clean()", "remove()", "A"],
+                    ["What does 'a,b'.split(',') return?", "['a', 'b']", "'a b'", "('a','b')", "['a,b']", "A"],
+                    ["Which prefix creates an f-string?", "f", "s", "str", "format", "A"],
+                    ["What does 'hello'[-1] return?", "o", "h", "l", "-1", "A"],
+                    ["Which method replaces text?", "replace()", "swap()", "change()", "edit()", "A"],
+                    ["Strings in Python are generally...", "Immutable", "Mutable", "Numeric", "Unordered", "A"],
+                    ["What does len('cat') return?", "3", "2", "4", "0", "A"],
+                    ["Which method makes a string lowercase?", "lower()", "down()", "small()", "casefolded()", "A"]
+                ]
+            },
+            {
+                id: "lists", name: "Lists & Tuples", icon: "bi-list-ul", level: "Beginner", desc: "Sequences, indexing, slicing, mutation, tuples and comprehensions.",
+                cards: [
+                    ["List", "An ordered, mutable collection such as [1, 2, 3]."],
+                    ["Tuple", "An ordered, immutable collection such as (1, 2, 3)."],
+                    ["append()", "Adds one item to the end of a list."],
+                    ["pop()", "Removes and returns an item, by default the last item."],
+                    ["List comprehension", "A compact syntax for creating lists from iterables."]
+                ],
+                qs: [
+                    ["Which collection is mutable?", "List", "Tuple", "String", "None", "A"],
+                    ["Which method adds one item to a list?", "append()", "add()", "push()", "insertEnd()", "A"],
+                    ["What is [1,2,3][1]?", "2", "1", "3", "0", "A"],
+                    ["Which creates a tuple?", "(1,2)", "[1,2]", "{1,2}", "<1,2>", "A"],
+                    ["What does pop() normally remove?", "Last item", "First item", "All items", "Middle item", "A"],
+                    ["Can a list contain different data types?", "Yes", "No", "Only numbers", "Only strings", "A"],
+                    ["Which method sorts a list in place?", "sort()", "order()", "sortedIn()", "arrange()", "A"],
+                    ["What does len([4,5]) return?", "2", "1", "3", "0", "A"],
+                    ["Which creates a copy with sorted values without modifying the original?", "sorted()", "sort()", "order()", "copySort()", "A"],
+                    ["A tuple is usually written with...", "Parentheses", "Square brackets", "Curly braces", "Angle brackets", "A"]
+                ]
+            },
+            {
+                id: "dictsets", name: "Dictionaries & Sets", icon: "bi-diagram-3", level: "Intermediate", desc: "Key-value mappings, set operations and useful methods.",
+                cards: [
+                    ["Dictionary", "Stores key-value pairs, e.g. {'name':'Ana'}."],
+                    ["get()", "Reads a dictionary key and can provide a default value."],
+                    ["Set", "An unordered collection of unique values."],
+                    ["union", "Combines values from two sets."],
+                    ["Dictionary comprehension", "Compact syntax for constructing dictionaries."]
+                ],
+                qs: [
+                    ["A dictionary stores data as...", "Key-value pairs", "Indexes only", "Rows", "Stacks", "A"],
+                    ["Which accesses d's value for key 'x'?", "d['x']", "d(x)", "d->x", "d.x()", "A"],
+                    ["Which avoids KeyError by allowing a default?", "get()", "find()", "read()", "value()", "A"],
+                    ["Sets automatically remove...", "Duplicates", "Strings", "Numbers", "Keys", "A"],
+                    ["Which operator represents set union?", "|", "&", "^", "%", "A"],
+                    ["Which operator represents set intersection?", "&", "|", "//", "*", "A"],
+                    ["Can a dictionary have duplicate keys?", "No", "Yes", "Only strings", "Only integers", "A"],
+                    ["Which creates an empty set?", "set()", "{}", "[]", "emptyset()", "A"],
+                    ["{} by itself creates an empty...", "Dictionary", "Set", "Tuple", "List", "A"],
+                    ["Which checks whether a key exists?", "key in d", "d.has(key)", "contains(d,key)", "key exists d", "A"]
+                ]
+            },
+            {
+                id: "conditions", name: "Conditions", icon: "bi-signpost-split", level: "Beginner", desc: "if, elif, else, nested conditions and Boolean expressions.",
+                cards: [
+                    ["if", "Runs a block when its condition is true."],
+                    ["elif", "Checks another condition if earlier conditions were false."],
+                    ["else", "Runs when none of the previous conditions match."],
+                    ["Nested condition", "A condition placed inside another code block."],
+                    ["Truthiness", "Values like 0, '', [], {}, and None are false-like."]
+                ],
+                qs: [
+                    ["Which keyword starts a conditional block?", "if", "for", "case", "when", "A"],
+                    ["Which handles another condition?", "elif", "elseif", "else if", "another", "A"],
+                    ["Which block runs when all conditions fail?", "else", "finally", "default", "otherwise", "A"],
+                    ["if 5 > 2: is...", "True", "False", "Invalid", "None", "A"],
+                    ["Which value is false-like?", "0", "1", "'0'", "[0]", "A"],
+                    ["Can if statements be nested?", "Yes", "No", "Only in functions", "Only in loops", "A"],
+                    ["Which operator combines conditions requiring both true?", "and", "or", "not", "both", "A"],
+                    ["Which operator is true if either condition is true?", "or", "and", "either", "anyof", "A"],
+                    ["What does not True evaluate to?", "False", "True", "None", "0", "A"],
+                    ["Python uses what to group conditional blocks?", "Indentation", "Brackets", "Semicolons", "Parentheses", "A"]
+                ]
+            },
+            {
+                id: "loops", name: "Loops", icon: "bi-arrow-repeat", level: "Intermediate", desc: "for, while, range, break, continue and loop patterns.",
+                cards: [
+                    ["for loop", "Iterates through items in an iterable."],
+                    ["while loop", "Repeats while a condition remains true."],
+                    ["range()", "Produces a sequence of numbers commonly used with for loops."],
+                    ["break", "Immediately exits the nearest loop."],
+                    ["continue", "Skips the current iteration and continues the loop."]
+                ],
+                qs: [
+                    ["Which loop is ideal for iterating over a list?", "for", "if", "switch", "repeat", "A"],
+                    ["Which loop depends on a condition?", "while", "for-each", "if", "match", "A"],
+                    ["What does range(3) produce conceptually?", "0,1,2", "1,2,3", "0,1,2,3", "3 only", "A"],
+                    ["Which exits a loop?", "break", "exitloop", "stop", "returnloop", "A"],
+                    ["Which skips to the next iteration?", "continue", "skip", "nextloop", "pass", "A"],
+                    ["What can cause a while loop to run forever?", "Condition never becomes false", "Using int", "Using print", "Using a list", "A"],
+                    ["for ch in 'hi' iterates over...", "Characters", "Words", "Indexes only", "Bytes only", "A"],
+                    ["range(2,5) gives...", "2,3,4", "2,3,4,5", "1,2,3,4", "5,4,3", "A"],
+                    ["Can loops have an else clause in Python?", "Yes", "No", "Only for while", "Only for for", "A"],
+                    ["pass is mainly used to...", "Do nothing as a placeholder", "Exit a loop", "Skip iteration", "Print a value", "A"]
+                ]
+            },
+            {
+                id: "functions", name: "Functions", icon: "bi-diagram-2", level: "Intermediate", desc: "Parameters, return values, scope, lambda and recursion.",
+                cards: [
+                    ["def", "Defines a function."],
+                    ["Parameter", "A variable listed in a function definition."],
+                    ["return", "Sends a value back to the caller."],
+                    ["*args", "Collects extra positional arguments into a tuple."],
+                    ["**kwargs", "Collects extra keyword arguments into a dictionary."]
+                ],
+                qs: [
+                    ["Which keyword defines a function?", "def", "func", "function", "define", "A"],
+                    ["Which keyword sends a result back?", "return", "send", "yield", "result", "A"],
+                    ["What is a parameter?", "A name receiving an argument", "A loop", "A module", "A class", "A"],
+                    ["A function can return multiple values by returning...", "A tuple", "Only one int", "Only a string", "Nothing", "A"],
+                    ["What does *args collect?", "Positional arguments", "Keyword arguments", "Modules", "Exceptions", "A"],
+                    ["What does **kwargs collect?", "Keyword arguments", "Positional arguments", "Lists", "Classes", "A"],
+                    ["A lambda is usually a...", "Small anonymous function", "Loop", "Class", "Module", "A"],
+                    ["Recursion means a function...", "Calls itself", "Runs in parallel", "Imports itself only", "Returns twice", "A"],
+                    ["Variables inside a function are normally...", "Local", "Global only", "Static", "Public", "A"],
+                    ["What is a default parameter?", "A parameter with a fallback value", "A required import", "A class variable", "A constant", "A"]
+                ]
+            },
+            {
+                id: "exceptions", name: "Exceptions & Files", icon: "bi-file-earmark-code", level: "Intermediate", desc: "try/except, raising errors, context managers and file handling.",
+                cards: [
+                    ["try/except", "Handles exceptions so a program can respond safely."],
+                    ["raise", "Manually triggers an exception."],
+                    ["finally", "Runs after try/except whether or not an error occurred."],
+                    ["with open()", "A common safe pattern for working with files."],
+                    ["read/write", "File objects provide methods for reading and writing data."]
+                ],
+                qs: [
+                    ["Which block contains code that may fail?", "try", "except", "catch", "error", "A"],
+                    ["Which handles an exception?", "except", "handle", "catcher", "error", "A"],
+                    ["Which block normally runs regardless of an exception?", "finally", "always", "last", "done", "A"],
+                    ["Which keyword manually raises an exception?", "raise", "throw", "error", "except", "A"],
+                    ["Which mode opens a file for writing?", "w", "r", "xonly", "writeonly", "A"],
+                    ["Which mode opens a file for reading?", "r", "read", "open", "i", "A"],
+                    ["Why use with open(...) as f?", "Automatic resource cleanup", "Faster loops", "Creates a class", "Encrypts files", "A"],
+                    ["Which exception often occurs when a key is missing?", "KeyError", "IndexError", "TypeError", "ValueError", "A"],
+                    ["Which exception often occurs for invalid integer conversion?", "ValueError", "KeyError", "NameError", "ImportError", "A"],
+                    ["What should you generally catch?", "Specific expected exceptions", "Every exception blindly", "Only SyntaxError", "Nothing", "A"]
+                ]
+            },
+            {
+                id: "oop", name: "OOP", icon: "bi-boxes", level: "Advanced", desc: "Classes, objects, inheritance, encapsulation and polymorphism.",
+                cards: [
+                    ["Class", "A blueprint for creating objects."],
+                    ["Object", "An instance of a class."],
+                    ["__init__", "A commonly used initializer method for new objects."],
+                    ["Inheritance", "A class can reuse or extend another class."],
+                    ["self", "The conventional name for the current object reference."]
+                ],
+                qs: [
+                    ["Which keyword defines a class?", "class", "object", "struct", "type", "A"],
+                    ["An object is an...", "Instance of a class", "Import", "Exception", "Loop", "A"],
+                    ["Which method commonly initializes an object?", "__init__", "__start__", "init()", "constructor()", "A"],
+                    ["What does inheritance allow?", "Reuse and extension of behavior", "Only variables", "Only imports", "No reuse", "A"],
+                    ["What does self usually refer to?", "Current instance", "Class name", "Module", "Parent only", "A"],
+                    ["Which concept hides internal implementation details?", "Encapsulation", "Iteration", "Compilation", "Parsing", "A"],
+                    ["Same interface, different implementations is...", "Polymorphism", "Recursion", "Indexing", "Slicing", "A"],
+                    ["A class attribute belongs to...", "The class", "Only one local function", "Only a loop", "A file", "A"],
+                    ["A method defined in a class receives self for...", "Instance methods", "Imports", "Comments", "Modules", "A"],
+                    ["super() is commonly used to...", "Access parent-class behavior", "Create a list", "Stop a loop", "Read a file", "A"]
+                ]
+            },
+            {
+                id: "modules", name: "Modules & Packages", icon: "bi-box-seam", level: "Advanced", desc: "Imports, standard library modules, packages, pip and virtual environments.",
+                cards: [
+                    ["Module", "A Python file containing reusable code."],
+                    ["import", "Loads a module so its names can be used."],
+                    ["from ... import", "Imports selected names from a module."],
+                    ["pip", "A package installer for Python."],
+                    ["venv", "Creates isolated Python environments."]
+                ],
+                qs: [
+                    ["Which statement imports math?", "import math", "include math", "use math", "load math", "A"],
+                    ["Which accesses sqrt after import math?", "math.sqrt(9)", "sqrt.math(9)", "math->sqrt(9)", "math::sqrt(9)", "A"],
+                    ["Which is a standard library module?", "random", "numpyx", "bootstrap", "reactpy", "A"],
+                    ["What is pip used for?", "Installing Python packages", "Running loops", "Editing code", "Creating variables", "A"],
+                    ["Why use a virtual environment?", "Isolate project dependencies", "Make Python faster always", "Replace Python", "Compile HTML", "A"],
+                    ["from math import pi imports...", "pi", "All math modules", "Only sqrt", "The Python interpreter", "A"],
+                    ["A package is commonly a collection of...", "Modules", "Loops", "Variables only", "HTML files", "A"],
+                    ["Which module handles JSON data?", "json", "datajson", "parser", "object", "A"],
+                    ["Which module handles dates and times?", "datetime", "timeonly", "calendarjs", "dates", "A"],
+                    ["Which module is useful for command-line arguments?", "argparse", "cmdlinepy", "terminal", "args", "A"]
+                ]
+            },
+            {
+                id: "advanced", name: "Advanced Python", icon: "bi-lightning-charge", level: "Advanced", desc: "Iterators, generators, decorators, comprehensions and context managers.",
+                cards: [
+                    ["Iterator", "An object that can return items one at a time with next()."],
+                    ["Generator", "A lazy iterator commonly created with yield."],
+                    ["yield", "Pauses a generator and produces a value."],
+                    ["Decorator", "A callable that wraps another function to extend behavior."],
+                    ["Context manager", "Controls setup and cleanup, often used with with."]
+                ],
+                qs: [
+                    ["Which keyword creates generator values?", "yield", "generate", "next", "lazy", "A"],
+                    ["Which function requests the next item from an iterator?", "next()", "move()", "iterate()", "forward()", "A"],
+                    ["A generator is useful because it...", "Produces values lazily", "Always stores everything", "Only works with strings", "Is a class only", "A"],
+                    ["A decorator usually...", "Wraps a callable", "Creates a database", "Stops recursion", "Opens files only", "A"],
+                    ["Which syntax applies a decorator?", "@name", "#name", "&name", "decorator name", "A"],
+                    ["List comprehensions create...", "Lists", "Only tuples", "Only sets", "Functions", "A"],
+                    ["Set comprehensions create...", "Sets", "Lists only", "Classes", "Modules", "A"],
+                    ["Dictionary comprehensions create...", "Dictionaries", "Tuples", "Files", "Exceptions", "A"],
+                    ["What does lazy evaluation generally mean?", "Compute when needed", "Compute everything immediately", "Never compute", "Use only RAM", "A"],
+                    ["with is commonly used with...", "Context managers", "Only loops", "Only strings", "Only functions", "A"]
+                ]
+            },
+            {
+                id: "stdlib", name: "Useful Standard Library", icon: "bi-tools", level: "Advanced", desc: "Collections, itertools, os, pathlib, math, random and more.",
+                cards: [
+                    ["collections", "Provides specialized containers such as Counter and defaultdict."],
+                    ["itertools", "Provides efficient iterator-building tools."],
+                    ["pathlib", "Offers an object-oriented approach to filesystem paths."],
+                    ["os", "Provides operating-system interfaces."],
+                    ["random", "Provides pseudo-random number generation utilities."]
+                ],
+                qs: [
+                    ["Counter is provided by which module?", "collections", "count", "math", "stats", "A"],
+                    ["Which module provides itertools?", "itertools", "iter", "looptools", "collections", "A"],
+                    ["Which module provides Path?", "pathlib", "paths", "ospath", "filelib", "A"],
+                    ["Which module can access environment variables?", "os", "env", "systemenv", "vars", "A"],
+                    ["Which function can generate a random integer in a range?", "randint()", "randomint()", "int_random()", "number()", "A"],
+                    ["Which module provides factorial()?", "math", "numbers", "calc", "factor", "A"],
+                    ["Which module is useful for copying files?", "shutil", "copyfile", "filecopy", "move", "A"],
+                    ["Which module parses CSV files?", "csv", "spreadsheet", "table", "dataframe", "A"],
+                    ["Which module works with regular expressions?", "re", "regexlib", "regexp", "pattern", "A"],
+                    ["Which module provides a high-resolution performance timer?", "time", "clock", "timer", "perf", "A"]
+                ]
+            }
+        ];
+
+        const state = {
+            user: JSON.parse(localStorage.getItem("pyquiz_current_user") || "null"),
+            view: "dashboard",
+            topicId: null,
+            flashIndex: 0,
+            flashRevealed: false,
+            quiz: null,
+            selectedAnswers: {},
+            quizStart: null
+        };
+
+        const store = {
+            users: () => JSON.parse(localStorage.getItem("pyquiz_users") || "[]"),
+            saveUsers: (v) => localStorage.setItem("pyquiz_users", JSON.stringify(v)),
+            results: () => JSON.parse(localStorage.getItem("pyquiz_results") || "[]"),
+            saveResults: (v) => localStorage.setItem("pyquiz_results", JSON.stringify(v)),
+            points: (username) => Number(localStorage.getItem("pyquiz_points_" + username) || 0),
+            setPoints: (username, n) => localStorage.setItem("pyquiz_points_" + username, String(n)),
+            codes: () => JSON.parse(localStorage.getItem("pyquiz_codes") || "[]"),
+            saveCodes: (v) => localStorage.setItem("pyquiz_codes", JSON.stringify(v))
+        };
+
+        function esc(s) {
+            return String(s ?? "").replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+        function toast(msg, type = "primary") {
+            const el = document.createElement("div");
+            el.className = "toast-box alert alert-" + type + " shadow-lg";
+            el.innerHTML = msg;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 3000);
+        }
+        function initials(name) { return name.split(/\s+/).map(x => x[0]).join("").slice(0, 2).toUpperCase() }
+
+        function render() {
+            if (!state.user) { renderLogin(); return; }
+            if (state.user.role === "admin") { renderAdmin(); return; }
+            renderStudent();
+        }
+
+        function renderLogin() {
+            document.getElementById("app").innerHTML = `
+  <div class="login-wrap">
+    <div class="login-card glass row g-0">
+      <div class="col-lg-6 login-art d-flex align-items-center p-4 p-md-5">
+        <div class="blob one"></div><div class="blob two"></div>
+        <div class="login-art-content">
+          <div class="mb-4 fs-4 fw-bold"><i class="bi bi-terminal-fill me-2"></i>Py Quiz</div>
+          <span class="badge rounded-pill bg-light text-dark mb-3">Python Learning Platform</span>
+          <h1 class="display-5 fw-bold">Learn Python.<br>Practice. <span class="text-warning">Master.</span></h1>
+          <p class="lead mt-3 opacity-75">Study topics with animated flashcards, take quizzes, understand mistakes, earn learning points and unlock advanced challenges.</p>
+          <div class="row g-2 mt-4">
+            <div class="col-6"><div class="p-3 rounded-4 bg-white bg-opacity-10"><b>14</b><br><small>Python topics</small></div></div>
+            <div class="col-6"><div class="p-3 rounded-4 bg-white bg-opacity-10"><b>10 Qs</b><br><small>Per topic quiz</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 bg-white p-4 p-md-5">
+        <div class="mb-4">
+          <h2 class="fw-bold">Welcome back 👋</h2>
+          <p class="text-secondary mb-0">Login as a student or administrator.</p>
+        </div>
+        <ul class="nav nav-pills nav-fill mb-4" id="roleTabs">
+          <li class="nav-item"><button class="nav-link active" data-role="student">Student</button></li>
+          <li class="nav-item"><button class="nav-link" data-role="admin">Admin</button></li>
+        </ul>
+        <form id="loginForm">
+          <input type="hidden" id="loginRole" value="student">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Username</label>
+            <input id="username" class="form-control" placeholder="Enter username" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Password</label>
+            <input id="password" type="password" class="form-control" placeholder="Enter password" required>
+          </div>
+          <button class="btn btn-primary w-100 py-3 fw-bold">Login <i class="bi bi-arrow-right ms-1"></i></button>
+        </form>
+        <div id="studentHint" class="mt-4 p-3 rounded-4 bg-light small">
+          <b>New student?</b> Enter any username and password. Your student account is created locally on first login.
+        </div>
+        <div id="adminHint" class="mt-4 p-3 rounded-4 bg-light small d-none">
+          <b>Admin setup:</b> In this same <code>index.html</code>, find <code>PYQUIZ_CONFIG</code> near the top and change the admin username and password.
+        </div>
+        <div class="text-center mt-4 small text-secondary">Front-end demo • Data is stored in this browser</div>
+      </div>
+    </div>
+  </div>`;
+            document.querySelectorAll("#roleTabs button").forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll("#roleTabs button").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    const role = btn.dataset.role;
+                    document.getElementById("loginRole").value = role;
+                    document.getElementById("studentHint").classList.toggle("d-none", role !== "student");
+                    document.getElementById("adminHint").classList.toggle("d-none", role !== "admin");
+                };
+            });
+            document.getElementById("loginForm").onsubmit = e => {
+                e.preventDefault();
+                const role = document.getElementById("loginRole").value;
+                const username = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value;
+                if (role === "admin") {
+                    if (username === PYQUIZ_CONFIG.adminUsername && password === PYQUIZ_CONFIG.adminPassword) {
+                        state.user = { username, role: "admin", name: "Administrator" };
+                        localStorage.setItem("pyquiz_current_user", JSON.stringify(state.user));
+                        render();
+                    } else toast("Invalid admin username or password.", "danger");
+                    return;
+                }
+                if (!username || !password) return;
+                let users = store.users();
+                let u = users.find(x => x.username.toLowerCase() === username.toLowerCase());
+                if (!u) {
+                    u = { username, password, name: username, createdAt: new Date().toISOString() };
+                    users.push(u); store.saveUsers(users);
+                    store.setPoints(username, 0);
+                    toast("Student account created successfully!", "success");
+                } else if (u.password !== password) {
+                    toast("Incorrect student password.", "danger"); return;
+                }
+                state.user = { username: u.username, role: "student", name: u.name };
+                localStorage.setItem("pyquiz_current_user", JSON.stringify(state.user));
+                render();
+            };
+        }
+
+        function nav() {
+            return `
+ <nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid px-3 px-lg-4">
+   <a class="navbar-brand brand" href="#" onclick="return false"><span class="py">Py</span><span class="quiz"> Quiz</span></a>
+   <div class="d-flex align-items-center gap-2">
+    <span class="d-none d-md-inline small text-secondary">${esc(state.user.name || state.user.username)}</span>
+    <button class="btn btn-soft btn-sm" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Logout</button>
+   </div>
+  </div>
+ </nav>`;
+        }
+
+        function studentSidebar() {
+            const points = store.points(state.user.username), target = 100;
+            return `<div class="sidebar glass p-3">
+   <div class="d-flex align-items-center gap-3 p-2 mb-3">
+    <div class="rounded-circle bg-primary text-white d-grid place-items-center" style="width:44px;height:44px">${initials(state.user.username)}</div>
+    <div><b>${esc(state.user.username)}</b><div class="small-muted">Student</div></div>
+   </div>
+   ${sideButton("dashboard", "bi-grid-1x2", "Dashboard")}
+   ${sideButton("learn", "bi-book", "Learn Python")}
+   ${sideButton("quiz", "bi-patch-question", "Topic Quizzes")}
+   ${sideButton("coding", "bi-code-slash", "Coding Practice")}
+   ${sideButton("results", "bi-bar-chart", "My Results")}
+   <hr>
+   <div class="small-muted px-2 mb-2">ADVANCED</div>
+   ${sideButton("advanced", "bi-lightning-charge", "Advanced Challenges", points < target)}
+   <div class="mt-3 p-3 rounded-4 bg-light">
+     <div class="small fw-semibold mb-2">Learning target</div>
+     <div class="progress mb-2"><div class="progress-bar" style="width:${Math.min(points, target)}%"></div></div>
+     <div class="small-muted">${points} / ${target} points</div>
+   </div>
+ </div>`;
+        }
+        function sideButton(id, icon, label, locked = false) {
+            return `<button class="side-btn ${state.view === id ? 'active' : ''}" onclick="go('${id}')" ${locked ? 'title="Earn 100 learning points to unlock"' : ''}><i class="bi ${icon} me-2"></i>${label}${locked ? ' <i class="bi bi-lock-fill float-end"></i>' : ''}</button>`;
+        }
+        function shell(content) {
+            return `${nav()}<div class="container-fluid p-3 p-lg-4"><div class="row g-4"><div class="col-lg-3 col-xl-2">${studentSidebar()}</div><main class="col-lg-9 col-xl-10 dashboard-main">${content}</main></div></div>`;
+        }
+
+        function renderStudent() {
+            let content = "";
+            if (state.view === "dashboard") content = studentDashboard();
+            else if (state.view === "learn") content = learnView();
+            else if (state.view === "quiz") content = quizTopics();
+            else if (state.view === "quiz-run") content = quizRun();
+            else if (state.view === "quiz-result") content = quizResult();
+            else if (state.view === "coding") content = codingView();
+            else if (state.view === "results") content = resultsView();
+            else if (state.view === "advanced") content = advancedView();
+            document.getElementById("app").innerHTML = shell(content);
+            bindView();
+        }
+
+        function studentDashboard() {
+            const rs = store.results().filter(r => r.username === state.user.username);
+            const passed = rs.filter(r => r.passed).length, failed = rs.filter(r => !r.passed).length;
+            const points = store.points(state.user.username);
+            return `<div class="mb-4">
+   <span class="badge rounded-pill badge-soft mb-2">PYTHON LEARNING JOURNEY</span>
+   <h1 class="page-title">Hello, ${esc(state.user.name || state.user.username)} 👋</h1>
+   <p class="text-secondary">Keep learning, take quizzes, review mistakes and unlock advanced challenges.</p>
+ </div>
+ <div class="row g-3 mb-4">
+  ${stat("bi-lightning-charge", "Learning Points", points)}
+  ${stat("bi-patch-check", "Exams Passed", passed)}
+  ${stat("bi-x-circle", "Exams Failed", failed)}
+  ${stat("bi-journal-check", "Exams Attended", rs.length)}
+ </div>
+ <div class="row g-4">
+  <div class="col-xl-8"><div class="feature-card p-4 p-md-5">
+    <div class="d-flex justify-content-between align-items-start gap-3">
+      <div><span class="badge bg-success-subtle text-success">START HERE</span><h3 class="fw-bold mt-2">Learn before you quiz</h3><p class="text-secondary">Each topic has short animated flashcards, then a 10-question quiz.</p></div>
+      <i class="bi bi-stars fs-1 text-warning"></i>
+    </div>
+    <div class="row g-3 mt-2">
+      ${TOPICS.slice(0, 3).map(t => `<div class="col-md-4"><div class="topic-card p-3 h-100"><div class="topic-icon mb-3"><i class="bi ${t.icon}"></i></div><b>${t.name}</b><div class="small-muted mt-1">${t.level}</div><button class="btn btn-soft btn-sm mt-3 w-100" onclick="startLearning('${t.id}')">Learn</button></div></div>`).join("")}
+    </div>
+  </div></div>
+  <div class="col-xl-4"><div class="feature-card p-4 h-100">
+    <h5 class="fw-bold">Unlock Advanced</h5><p class="small-muted">Earn points by studying cards and completing quizzes.</p>
+    <div class="display-6 fw-bold">${points}<span class="fs-6 text-secondary"> / 100</span></div>
+    <div class="progress my-3"><div class="progress-bar" style="width:${Math.min(points, 100)}%"></div></div>
+    <p class="small-muted mb-3">${Math.max(0, 100 - points)} more points needed.</p>
+    <button class="btn btn-primary w-100" onclick="go('advanced')">${points >= 100 ? 'Open challenges' : 'View target'}</button>
+  </div></div>
+ </div>`;
+        }
+        function stat(icon, label, value) {
+            return `<div class="col-6 col-xl-3"><div class="stat-card p-3 p-md-4 h-100"><div class="icon-box mb-3"><i class="bi ${icon}"></i></div><div class="small-muted">${label}</div><div class="stat-number">${value}</div></div></div>`;
+        }
+
+        function learnView() {
+            if (!state.topicId) {
+                return `<div class="mb-4"><h1 class="page-title">Learn Python</h1><p class="text-secondary">Pick a topic and study its animated flashcards before taking the quiz.</p></div>
+  <div class="row g-4">${TOPICS.map(topicCard).join("")}</div>`;
+            }
+            const t = TOPICS.find(x => x.id === state.topicId);
+            const card = t.cards[state.flashIndex % t.cards.length];
+            return `<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+   <div><button class="btn btn-soft btn-sm" onclick="state.topicId=null;render()">← All topics</button><h2 class="page-title mt-3">${t.name}</h2><p class="text-secondary">${t.desc}</p></div>
+   <span class="badge rounded-pill badge-soft">${state.flashIndex + 1} / ${t.cards.length}</span>
+ </div>
+ <div class="learning-card mb-3" onclick="flipFlashcard()">
+   <div class="card-chip"><i class="bi bi-stars me-1"></i> Animated Study Card</div>
+   <div class="d-flex flex-column justify-content-center h-100 mt-4">
+    <div class="small text-white-50 mb-2">${state.flashRevealed ? 'ANSWER' : 'QUESTION'}</div>
+    <div class="flash-word flip" key="${state.flashIndex}-${state.flashRevealed}">${esc(state.flashRevealed ? card[1] : card[0])}</div>
+    <div class="mt-4 text-white-50">${state.flashRevealed ? 'Tap to see the question again' : 'Tap the card to reveal the answer'}</div>
+   </div>
+ </div>
+ <div class="d-flex justify-content-between gap-2 mb-4">
+  <button class="btn btn-light border" onclick="prevFlash()"><i class="bi bi-arrow-left"></i> Previous</button>
+  <button class="btn btn-primary" onclick="nextFlash()">${state.flashIndex === t.cards.length - 1 ? 'Finish learning' : 'Next card'} <i class="bi bi-arrow-right"></i></button>
+ </div>
+ <div class="feature-card p-4">
+   <h5 class="fw-bold">Ready for the quiz?</h5><p class="small-muted">Complete this study section and test your knowledge with 10 questions.</p>
+   <button class="btn btn-primary" onclick="startQuiz('${t.id}')">Start ${t.name} Quiz</button>
+ </div>`;
+        }
+        function topicCard(t) {
+            return `<div class="col-md-6 col-xl-4"><div class="topic-card p-4 h-100">
+  <div class="d-flex justify-content-between"><div class="topic-icon"><i class="bi ${t.icon}"></i></div><span class="badge badge-soft h-fit">${t.level}</span></div>
+  <h5 class="fw-bold mt-4">${t.name}</h5><p class="small-muted">${t.desc}</p>
+  <div class="d-flex justify-content-between small-muted mb-2"><span>${t.cards.length} flashcards</span><span>${t.qs.length} questions</span></div>
+  <button class="btn btn-primary w-100" onclick="startLearning('${t.id}')">Learn topic <i class="bi bi-arrow-right"></i></button>
+ </div></div>`;
+        }
+
+        function quizTopics() {
+            return `<div class="mb-4"><h1 class="page-title">Topic Quizzes</h1><p class="text-secondary">Every quiz has 10 questions. You can move back and forth and change answers before submitting.</p></div>
+ <div class="row g-4">${TOPICS.map(t => `<div class="col-md-6 col-xl-4"><div class="topic-card p-4 h-100">
+  <div class="d-flex justify-content-between"><div class="topic-icon"><i class="bi ${t.icon}"></i></div><span class="badge ${t.level === 'Advanced' ? 'bg-danger-subtle text-danger' : 'badge-soft'}">${t.level}</span></div>
+  <h5 class="fw-bold mt-3">${t.name}</h5><p class="small-muted">${t.desc}</p>
+  <button class="btn btn-soft w-100" onclick="startQuiz('${t.id}')"><i class="bi bi-play-circle me-1"></i> Start Quiz · 10 Qs</button>
+ </div></div>`).join("")}</div>`;
+        }
+
+        function quizRun() {
+            const q = state.quiz;
+            if (!q) return quizTopics();
+            const t = TOPICS.find(x => x.id === q.topicId), item = t.qs[q.index];
+            return `<div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+   <div><span class="badge badge-soft">${t.name}</span><h2 class="page-title mt-2 mb-0">Question ${q.index + 1} of ${t.qs.length}</h2></div>
+   <div class="timer"><i class="bi bi-clock"></i> <span id="timer">--:--</span></div>
+ </div>
+ <div class="progress mb-4"><div class="progress-bar" style="width:${((q.index + 1) / t.qs.length) * 100}%"></div></div>
+ <div class="feature-card p-4 p-md-5">
+   <h4 class="fw-bold mb-4">${esc(item[0])}</h4>
+   <div class="d-grid gap-3">${item.slice(1, 5).map((opt, i) => {
+                const letter = String.fromCharCode(65 + i), selected = state.selectedAnswers[q.index] === letter;
+                return `<label class="question-option ${selected ? 'selected' : ''}">
+       <input type="radio" name="answer" value="${letter}" class="me-2" ${selected ? 'checked' : ''} onchange="chooseAnswer('${letter}')">
+       <b>${letter}.</b> ${esc(opt)}
+      </label>`;
+            }).join("")}</div>
+   <div class="d-flex justify-content-between mt-5 gap-2">
+    <button class="btn btn-light border" onclick="quizPrev()" ${q.index === 0 ? 'disabled' : ''}><i class="bi bi-arrow-left"></i> Previous</button>
+    ${q.index === t.qs.length - 1
+                    ? '<button class="btn btn-primary" onclick="submitQuiz()">Submit Quiz <i class="bi bi-check2-circle"></i></button>'
+                    : '<button class="btn btn-primary" onclick="quizNext()">Next <i class="bi bi-arrow-right"></i></button>'}
+   </div>
+ </div>
+ <div class="mt-3 small-muted"><i class="bi bi-info-circle me-1"></i>You can change an answer anytime before submitting.</div>`;
+        }
+
+        function quizResult() {
+            const r = state.quiz?.result;
+            if (!r) return resultsView();
+            return `<div class="mb-4"><span class="badge rounded-pill ${r.passed ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}">${r.passed ? 'PASSED' : 'KEEP PRACTICING'}</span><h1 class="page-title mt-2">Quiz Result</h1><p class="text-secondary">${r.topicName}</p></div>
+ <div class="row g-4 mb-4">
+  <div class="col-md-4"><div class="stat-card p-4 h-100"><div class="small-muted">Score</div><div class="display-5 fw-bold">${r.score}%</div><div class="small-muted">${r.correct} / ${r.total} correct</div></div></div>
+  <div class="col-md-4"><div class="stat-card p-4 h-100"><div class="small-muted">Learning points earned</div><div class="display-5 fw-bold text-success">+${r.pointsEarned}</div><div class="small-muted">Your total: ${store.points(state.user.username)}</div></div></div>
+  <div class="col-md-4"><div class="stat-card p-4 h-100"><div class="small-muted">Result</div><div class="display-5 fw-bold">${r.passed ? 'PASS' : 'FAIL'}</div><div class="small-muted">Pass mark: 60%</div></div></div>
+ </div>
+ <div class="table-card p-4"><h4 class="fw-bold mb-3">Review all mistakes</h4>
+ ${r.review.map((x, i) => `<div class="p-3 rounded-4 mb-3 ${x.correct ? 'answer-correct' : 'answer-wrong'}">
+   <div class="fw-bold">${i + 1}. ${esc(x.question)}</div>
+   <div class="small mt-2"><b>Your answer:</b> ${x.user ? esc(x.userText) : '<span class="text-danger">Not answered</span>'}</div>
+   <div class="small"><b>Correct answer:</b> ${esc(x.correctText)}</div>
+   <div class="small mt-2 text-secondary"><b>Explanation:</b> ${esc(x.explanation)}</div>
+ </div>`).join("")}
+ </div>
+ <div class="mt-4 d-flex gap-2 flex-wrap"><button class="btn btn-primary" onclick="go('quiz')">Take another quiz</button><button class="btn btn-soft" onclick="go('results')">View my results</button></div>`;
+        }
+
+        function codingView() {
+            const challenges = [
+                ["Reverse a string", "Write a function reverse_text(text) that returns the reversed string.", "reverse_text('python')  # nohtyp"],
+                ["Count vowels", "Write count_vowels(text) and return the number of vowels.", "count_vowels('education')  # 5"],
+                ["Find maximum", "Write find_max(nums) without using max().", "find_max([4,8,2,9])  # 9"],
+                ["Palindrome", "Write is_palindrome(text) ignoring case.", "is_palindrome('Level')  # True"],
+                ["Word frequency", "Return a dictionary containing each word's frequency.", "word_frequency('a b a')  # {'a': 2, 'b': 1}"]
+            ];
+            return `<div class="mb-4"><h1 class="page-title">Coding Practice</h1><p class="text-secondary">Practice Python problems. Your code is saved locally in this browser.</p></div>
+ <div class="row g-4">${challenges.map((c, i) => `<div class="col-xl-6"><div class="code-card p-4">
+   <span class="badge badge-soft">Challenge ${i + 1}</span><h4 class="fw-bold mt-3">${c[0]}</h4><p class="text-secondary">${c[1]}</p><div class="small-muted mb-2">${c[2]}</div>
+   <textarea class="code-editor" id="code${i}" placeholder="# Write your Python solution here...">${esc(store.codes()[i]?.code || "")}</textarea>
+   <div class="d-flex gap-2 mt-3"><button class="btn btn-primary" onclick="saveCode(${i})"><i class="bi bi-save"></i> Save</button><button class="btn btn-soft" onclick="runDemo(${i})"><i class="bi bi-play-fill"></i> Demo test</button></div>
+   <div class="code-output mt-3" id="out${i}">Output will appear here.</div>
+ </div></div>`).join("")}</div>`;
+        }
+        function resultsView() {
+            const rs = store.results().filter(r => r.username === state.user.username).sort((a, b) => b.date.localeCompare(a.date));
+            return `<div class="mb-4"><h1 class="page-title">My Results</h1><p class="text-secondary">Track every exam you have attended, passed and failed.</p></div>
+ <div class="table-card p-3 p-md-4">
+ ${rs.length ? `<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Date</th><th>Topic</th><th>Score</th><th>Status</th><th>Points</th></tr></thead><tbody>
+ ${rs.map(r => `<tr><td>${new Date(r.date).toLocaleString()}</td><td>${esc(r.topicName)}</td><td>${r.score}%</td><td><span class="badge ${r.passed ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}">${r.passed ? 'Passed' : 'Failed'}</span></td><td>+${r.pointsEarned}</td></tr>`).join("")}</tbody></table></div>`
+                    : `<div class="empty-state"><i class="bi bi-bar-chart fs-1"></i><h5 class="mt-3">No exams yet</h5><p>Take your first topic quiz to see results here.</p><button class="btn btn-primary" onclick="go('quiz')">Start a quiz</button></div>`}
+ </div>`;
+        }
+        function advancedView() {
+            const points = store.points(state.user.username);
+            const unlocked = points >= 100;
+            return `<div class="mb-4"><h1 class="page-title">Advanced Challenges ${!unlocked ? '🔒' : ''}</h1><p class="text-secondary">Reach 100 learning points to unlock these harder Python tasks.</p></div>
+ <div class="feature-card p-4 p-md-5 ${!unlocked ? 'locked' : ''}">
+ ${unlocked ? `<div class="alert alert-success rounded-4"><i class="bi bi-unlock me-2"></i>Advanced challenges unlocked!</div>
+ <div class="row g-3">${[
+                        ["Decorators", "Create a decorator that logs a function call before and after execution."],
+                        ["Generator pipeline", "Build a generator that yields prime numbers below a limit."],
+                        ["Custom exception", "Create InvalidAgeError and validate a user's age."],
+                        ["OOP mini project", "Create BankAccount with deposit, withdraw and transaction history."]
+                    ].map((x, i) => `<div class="col-md-6"><div class="p-4 rounded-4 bg-light h-100"><span class="badge badge-soft">Challenge ${i + 1}</span><h5 class="fw-bold mt-2">${x[0]}</h5><p class="small-muted">${x[1]}</p><button class="btn btn-primary btn-sm">Practice challenge</button></div></div>`).join("")}</div>`
+                    : `<div class="text-center py-4"><div class="display-4 mb-3">🔐</div><h3 class="fw-bold">Keep learning to unlock</h3><p class="text-secondary">You currently have <b>${points}</b> points. You need <b>${100 - points}</b> more.</p><div class="progress mx-auto mb-3" style="max-width:500px"><div class="progress-bar" style="width:${Math.min(points, 100)}%"></div></div><button class="btn btn-primary" onclick="go('learn')">Earn learning points</button></div>`}
+ </div>`;
+        }
+
+        function bindView() {
+            if (state.view === "quiz-run") {
+                startTimer();
+            }
+        }
+
+        function startLearning(id) {
+            state.topicId = id; state.flashIndex = 0; state.flashRevealed = false; state.view = "learn"; render();
+        }
+        function flipFlashcard() { state.flashRevealed = !state.flashRevealed; render() }
+        function nextFlash() {
+            const t = TOPICS.find(x => x.id === state.topicId);
+            if (state.flashIndex < t.cards.length - 1) { state.flashIndex++; state.flashRevealed = false; render() }
+            else {
+                const current = store.points(state.user.username);
+                store.setPoints(state.user.username, Math.min(100, current + 5));
+                toast("+5 learning points for completing the flashcards!", "success");
+                state.flashIndex = 0; state.flashRevealed = false; render();
+            }
+        }
+        function prevFlash() {
+            if (state.flashIndex > 0) { state.flashIndex--; state.flashRevealed = false; render() }
+        }
+        function startQuiz(id) {
+            const t = TOPICS.find(x => x.id === id);
+            state.quiz = { topicId: id, index: 0, result: null };
+            state.selectedAnswers = {}; state.quizStart = Date.now(); state.view = "quiz-run"; render();
+        }
+        function chooseAnswer(letter) { state.selectedAnswers[state.quiz.index] = letter; render() }
+        function quizNext() {
+            const t = TOPICS.find(x => x.id === state.quiz.topicId);
+            if (state.quiz.index < t.qs.length - 1) { state.quiz.index++; render() }
+        }
+        function quizPrev() {
+            if (state.quiz.index > 0) { state.quiz.index--; render() }
+        }
+        function explanation(question, correct) {
+            const q = question.toLowerCase();
+            if (q.includes("comment")) return "Python comments begin with # and are ignored by the interpreter.";
+            if (q.includes("input")) return "input() reads text and returns a string unless you convert it.";
+            if (q.includes("mutable")) return "Lists can be changed after creation; tuples and strings are immutable.";
+            if (q.includes("dictionary")) return "Dictionaries map keys to values and each key must be unique.";
+            if (q.includes("loop")) return "Loops repeat a block of code over items or while a condition is true.";
+            if (q.includes("function")) return "Functions group reusable logic and can accept arguments and return results.";
+            if (q.includes("exception")) return "try/except lets your program handle expected runtime errors safely.";
+            if (q.includes("class") || q.includes("object")) return "Classes define structure and behavior; objects are instances of those classes.";
+            return `The correct choice is ${correct}. Review the topic flashcards and try the quiz again.`;
+        }
+        function submitQuiz() {
+            const t = TOPICS.find(x => x.id === state.quiz.topicId);
+            let correct = 0, review = [];
+            t.qs.forEach((q, i) => {
+                const user = state.selectedAnswers[i];
+                const answerIndex = q[5].charCodeAt(0) - 65;
+                const correctText = q[1 + answerIndex];
+                const userText = user ? q[1 + user.charCodeAt(0) - 65] : "";
+                const ok = user === q[5];
+                if (ok) correct++;
+                review.push({ question: q[0], user, userText, correctText, correct: ok, correctLetter: q[5], explanation: explanation(q[0], correctText) });
+            });
+            const score = Math.round(correct / t.qs.length * 100);
+            const passed = score >= 60;
+            const pointsEarned = passed ? 15 : 5;
+            const r = { username: state.user.username, topicId: t.id, topicName: t.name, score, correct, total: t.qs.length, passed, pointsEarned, date: new Date().toISOString(), review };
+            const rs = store.results(); rs.push(r); store.saveResults(rs);
+            store.setPoints(state.user.username, Math.min(100, store.points(state.user.username) + pointsEarned));
+            state.quiz.result = r; state.view = "quiz-result"; render();
+        }
+        function startTimer() {
+            const el = document.getElementById("timer");
+            if (!el || !state.quiz) return;
+            const started = state.quizStart || Date.now(), limit = 15 * 60;
+            const tick = () => {
+                if (state.view !== "quiz-run") return;
+                const left = Math.max(0, limit - Math.floor((Date.now() - started) / 1000));
+                const m = String(Math.floor(left / 60)).padStart(2, "0"), s = String(left % 60).padStart(2, "0");
+                const node = document.getElementById("timer"); if (node) node.textContent = m + ":" + s;
+                if (left === 0) { submitQuiz(); return }
+                setTimeout(tick, 1000);
+            }; tick();
+        }
+        function saveCode(i) {
+            const codes = store.codes(); codes[i] = { code: document.getElementById("code" + i).value, updatedAt: new Date().toISOString() };
+            store.saveCodes(codes); toast("Code saved locally.", "success");
+        }
+        function runDemo(i) {
+            const output = document.getElementById("out" + i);
+            const demos = ["Try calling reverse_text('python').", "Try calling count_vowels('education').", "Try calling find_max([4,8,2,9]).", "Try calling is_palindrome('Level').", "Try calling word_frequency('a b a')."];
+            output.textContent = "Demo runner: " + demos[i] + "\n\nThis front-end version saves your code locally. Connect a Python backend to execute arbitrary Python securely.";
+        }
+        function go(view) { state.view = view; if (view !== "learn") { state.topicId = null } render() }
+        function logout() { localStorage.removeItem("pyquiz_current_user"); state.user = null; render() }
+
+        function renderAdmin() {
+            const users = store.users(), rs = store.results();
+            const passed = rs.filter(x => x.passed).length, failed = rs.filter(x => !x.passed).length;
+            const studentStats = users.map(u => {
+                const ur = rs.filter(r => r.username === u.username);
+                return { ...u, attempts: ur.length, passed: ur.filter(r => r.passed).length, failed: ur.filter(r => !r.passed).length, points: store.points(u.username) };
+            });
+            document.getElementById("app").innerHTML = `${nav()}
+ <div class="container-fluid p-3 p-lg-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 gap-2">
+   <div><span class="badge rounded-pill badge-soft">ADMIN CONTROL CENTER</span><h1 class="page-title mt-2">Student Analytics</h1><p class="text-secondary mb-0">View students, exams, pass/fail results and learning progress.</p></div>
+   <div class="text-end small-muted">Only the configured admin account can access this dashboard.</div>
+  </div>
+  <div class="row g-3 mb-4">
+   ${stat("bi-people", "Students", users.length)}
+   ${stat("bi-journal-check", "Total Exams", rs.length)}
+   ${stat("bi-check-circle", "Passed", passed)}
+   ${stat("bi-x-circle", "Failed", failed)}
+  </div>
+  <div class="table-card p-3 p-md-4 mb-4">
+   <div class="d-flex justify-content-between align-items-center mb-3"><h4 class="fw-bold mb-0">All Students</h4><button class="btn btn-soft btn-sm" onclick="exportResults()"><i class="bi bi-download"></i> Export CSV</button></div>
+   ${studentStats.length ? `<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Student</th><th>Joined</th><th>Points</th><th>Exams</th><th>Passed</th><th>Failed</th><th>Progress</th></tr></thead><tbody>
+   ${studentStats.map(u => `<tr><td><b>${esc(u.username)}</b></td><td>${new Date(u.createdAt).toLocaleDateString()}</td><td>${u.points}/100</td><td>${u.attempts}</td><td><span class="text-success fw-bold">${u.passed}</span></td><td><span class="text-danger fw-bold">${u.failed}</span></td><td style="min-width:140px"><div class="progress"><div class="progress-bar" style="width:${Math.min(u.points, 100)}%"></div></div></td></tr>`).join("")}</tbody></table></div>`
+                    : `<div class="empty-state">No students have registered yet.</div>`}
+  </div>
+  <div class="table-card p-3 p-md-4">
+   <h4 class="fw-bold mb-3">Exam History</h4>
+   ${rs.length ? `<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Date</th><th>Student</th><th>Topic</th><th>Score</th><th>Status</th></tr></thead><tbody>
+   ${rs.slice().sort((a, b) => b.date.localeCompare(a.date)).map(r => `<tr><td>${new Date(r.date).toLocaleString()}</td><td>${esc(r.username)}</td><td>${esc(r.topicName)}</td><td>${r.score}%</td><td><span class="badge ${r.passed ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}">${r.passed ? 'Passed' : 'Failed'}</span></td></tr>`).join("")}</tbody></table></div>`
+                    : `<div class="empty-state">No exams have been attended yet.</div>`}
+  </div>
+ </div>`;
+        }
+        function exportResults() {
+            const rs = store.results();
+            const rows = [["Date", "Student", "Topic", "Score", "Correct", "Total", "Status", "Points"]];
+            rs.forEach(r => rows.push([r.date, r.username, r.topicName, r.score, r.correct, r.total, r.passed ? "Passed" : "Failed", r.pointsEarned]));
+            const csv = rows.map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+            const blob = new Blob([csv], { type: "text/csv" }), url = URL.createObjectURL(blob), a = document.createElement("a");
+            a.href = url; a.download = "pyquiz-results.csv"; a.click(); URL.revokeObjectURL(url);
+        }
+        render();
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
